@@ -1,0 +1,19 @@
+{
+    "projectName": "MyProject",
+    "targetFramework": "v4.6.2",
+    "nugetTargetFramework": "net462",
+    "aspNet": {
+        "lib": "net45",
+        "mvcVersion": "5.2.3",
+        "webPagesVersion": "3.2.3",
+        "razorVersion": "3.2.3"
+    },
+    "[guid]" : {
+        "type" : "guid",
+        "format": "D"
+    },
+    "[[subProjectId]]" : {
+        "type" : "guid",
+        "format" : "D"
+    }
+}
