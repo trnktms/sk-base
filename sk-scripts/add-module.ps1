@@ -21,7 +21,6 @@ if ([string]::IsNullOrEmpty($configPath)) {
 }
 
 if ([string]::IsNullOrEmpty($templatePath)) {
-    $templatePath = Join-Path -Path $templatesAddModuleDir -ChildPath "default";
     $templatePath = Join-Path -Path $templatePath -ChildPath $templateName;
 }
 
