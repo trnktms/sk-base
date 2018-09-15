@@ -3,6 +3,7 @@ using module ".\helpers\file-helper.psm1";
 using module ".\helpers\log-helper.psm1";
 
 Param(
+    [Parameter(Mandatory = $true)] [string]$templateName,
     [Parameter(Mandatory = $false)] [string]$targetPath,
     [Parameter(Mandatory = $false)] [string]$configPath,
     [Parameter(Mandatory = $false)] [string]$templatePath)
@@ -18,7 +19,7 @@ if ([string]::IsNullOrEmpty($configPath)) {
 }
 
 if ([string]::IsNullOrEmpty($templatePath)) {
-    $templatePath = Join-Path -Path $templatesInitDir -ChildPath "default";
+    $templatePath = Join-Path -Path $templatesInitDir -ChildPath $templateName;
 }
 
 # deserialiaze JSON config
