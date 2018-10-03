@@ -1,41 +1,38 @@
-# Whatever.Skeleton
+# sk-base - the project generator with PowerShell
 
 ### Purpose of the project
-Accelarate Visual Studio based project initial setup and project addition included with common needs.
+Accelarate whatever project initial setup and project addition included with common needs.
 
 ### How to use your own template, configuration with your project
+Download this repository and put it into your own project, so your folder structure would look like this for instance:
+- `sk-base`
+    - `sk-configs`
+    - `sk-queue`
+    - `sk-scripts`
+- `sk-configs` - JSON configuration folder for your templates
+- `sk-templates` - template folder
+    - `add-module`
+        - `your-module-template-1`
+        - `your-module-template-2`
+        - `...`
+    - `add-project`
+        - `your-project-template-1`
+        - `your-project-template-2`
+        - `...`
+    - `init`
+        - `your-init-template-1`
+        - `your-init-template-2`
+        - `...`
+- `target` - the place where the generated files goes
+
 Just use the following parameters when you call `init.ps1` or `add-project.ps1` or `add-module.ps1` optionally:
 - `configPath`
 - `templatePath`
 - `targetPath`
 
-I suggest to download this repository and put it into your own, so your folder structure would look like this for instance:
-- `Whatever.Skeleton`
-    - `sk-configs`
-    - `sk-queue`
-    - `sk-scripts`
-    - `sk-templates`
-    - `target`
-- `src`
-- `...`
-
-Change the following files/folders if you want to use your own template or configuration:
-- `sk-configs\default.9.0.180604.config.json`
-- `sk-templates\add-module\default\feature\`
-- `sk-templates\add-project\default\feature\`
-- `sk-templates\add-project\default\foundation\`
-- `sk-templates\init\default\`
-
-Create your own variants of the scripts, e.g.:
-- `init.ps1 -targetPath "C:\projects\MyProject\src"`
-- `add-project.ps1 -targetPath "C:\projects\MyProject\src"`
-- `add-module.ps1 -targetPath "C:\projects\MyProject\src"`
-
-So other developers from the team can use the scripts above.
-
 ### Commands
 #### init.ps1
- 1. Run the `init.ps1` PowerShell script from the `sk-scripts` folder, which sets up your solution based on `default.config.json` by default. Here is all the settings what you can change:
+ 1. Run the `init.ps1` PowerShell script from the `sk-scripts` folder, which sets up your solution based on `default.config.json` by default. Here is an example how the config could look like:
 ```
 {
     "projectName": "MyProject",
@@ -56,23 +53,20 @@ So other developers from the team can use the scripts above.
         "format" : "D"
     }
 }
- 2. Go to the target folder and open the solution in Visual Studio
 ```
 
 #### add-project.ps1
  1. Run the `add-project.ps1` command with 2 required parameters:
     - `subProjectName`: name of the new project (e.g. `Navigation`)
-    - `templateName`: name of the subfolder from `.\sk-templates\default` (`feature` or `foundation`)
+    - `templateName`: name of the subfolder from `.\sk-templates` (`your-project-template-1` or `your-project-template-2`)
  2. This command uses the same `default.config.json` config above
- 3. Include the newly generated project to your Visual Studio solution manually
 
 #### add-module.ps1
  1. Run the `add-module.ps1` command with 3 required parameters:
     - `moduleName`: name of the new module (e.g. `TextModule`)
     - `subProjectName`: name of the new project (e.g. `Navigation`)
-    - `templateName`: name of the subfolder from `.\sk-templates\default` (`feature` or `foundation`)
+    - `templateName`: name of the subfolder from `.\sk-templates\default` (`your-module-template-1` or `your-module-template-2`)
  2. This command uses the same `default.config.json` config above
- 3. Include the newly generated files to your Visual Studio project manually
 
 ### How to create your own template and configuration
 #### Configuration
