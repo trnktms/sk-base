@@ -8,25 +8,17 @@ Param(
     [Parameter(Mandatory = $true)] [string]$templateName,
     [Parameter(Mandatory = $false)] [string]$targetPath,
     [Parameter(Mandatory = $false)] [string]$configPath,
-<<<<<<< HEAD
-    [Parameter(Mandatory = $false)] [string]$templatePath)
-=======
     [Parameter(Mandatory = $false)] [string]$templatePath,
     [Parameter(Mandatory = $false)] [bool]$toRoot)
->>>>>>> 8faff68d2d6a823c01255731c9dfe6b82986e07a
 
 . ".\settings\settings.ps1";
 
 if ([string]::IsNullOrEmpty($targetPath)) {
-<<<<<<< HEAD
-    $targetPath = $defaultTargetDir;
-=======
     if ($toRoot) {
         $targetPath = $rootTargetDir;
     } else {
         $targetPath = $defaultTargetDir;
     }
->>>>>>> 8faff68d2d6a823c01255731c9dfe6b82986e07a
 }
 
 if ([string]::IsNullOrEmpty($configPath)) {
