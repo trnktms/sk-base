@@ -1,7 +1,7 @@
 # sk-base - the project generator with PowerShell
 
 ### Purpose of the project
-Accelarate whatever project initial setup and project addition included with common needs.
+Accelarate whatever project initial setup, project and module addition included with common needs.
 
 ### How to use your own template, configuration with your project
 Download this repository and put it into your own project, so your folder structure would look like this for instance:
@@ -68,10 +68,12 @@ Just use the following parameters when you call `init.ps1` or `add-project.ps1` 
     - `templateName`: name of the subfolder from `.\sk-templates\default` (`your-module-template-1` or `your-module-template-2`)
  2. This command uses the same `default.config.json` config above
 
-### How to create your own template and configuration
+### How to create your own templates and configurations
+
 #### Configuration
 You can create your own configuration with the same parameter names or you can even create your custom parameters.
 Only the `projectName` is a hardcoded and required parameter name but the others can be removed and changed.
+
 #### Template
 You can create your own templates (different, less complex or more complex), you just need to follow the following placeholder name convention:
 - One level deep parameter: `[<parameterName>]` e.g. `[nugetTargetFramework]`

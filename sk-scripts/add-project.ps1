@@ -7,12 +7,17 @@ Param(
     [Parameter(Mandatory = $true)] [string]$templateName,
     [Parameter(Mandatory = $false)] [string]$targetPath,
     [Parameter(Mandatory = $false)] [string]$configPath,
-    [Parameter(Mandatory = $false)] [string]$templatePath)
+    [Parameter(Mandatory = $false)] [string]$templatePath,
+    [Parameter(Mandatory = $false)] [bool]$toRoot)
 
 . ".\settings\settings.ps1";
 
 if ([string]::IsNullOrEmpty($targetPath)) {
-    $targetPath = $defaultTargetDir;
+    if ($toRoot) {
+        $targetPath = $rootTargetDir;
+    } else {
+        $targetPath = $defaultTargetDir;
+    }
 }
 
 if ([string]::IsNullOrEmpty($configPath)) {
