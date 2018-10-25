@@ -1,4 +1,5 @@
 using module ".\log-helper.psm1";
+using module ".\settings.psm1";
 
 class FileHelper {
     static ReplaceWithConfigValue($files, $configValue) {
@@ -36,9 +37,9 @@ class FileHelper {
                 $path = $dir.FullName;
     
                 $parentPath = $dir.Parent.FullName.Clone();
-                $relativeParentPath = $parentPath.Replace($root, "");
+                $relativeParentPath = $parentPath.Replace([Settings]::Root(), "");
                 if ($relativeParentPath.Contains($renameThis)) {
-                    $path = Join-Path -Path $root -ChildPath $relativeParentPath.Replace($renameThis, $renameWith);
+                    $path = Join-Path -Path ([Settings]::Root()) -ChildPath $relativeParentPath.Replace($renameThis, $renameWith);
                     $path = Join-Path -Path $path -ChildPath $dir.Name;
                 }
             

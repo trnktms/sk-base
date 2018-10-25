@@ -1,6 +1,7 @@
 using module ".\helpers\config-helper.psm1";
 using module ".\helpers\file-helper.psm1";
 using module ".\helpers\log-helper.psm1"
+using module ".\helpers\settings.psm1";
 
 Param(
     [Parameter(Mandatory = $true)] [string]$subProjectName,
@@ -10,22 +11,20 @@ Param(
     [Parameter(Mandatory = $false)] [string]$templatePath,
     [Parameter(Mandatory = $false)] [bool]$toRoot)
 
-. ".\settings\settings.ps1";
-
 if ([string]::IsNullOrEmpty($targetPath)) {
     if ($toRoot) {
-        $targetPath = $rootTargetDir;
+        $targetPath = [Settings]::RootTargetDir();
     } else {
-        $targetPath = $defaultTargetDir;
+        $targetPath = [Settings]::DefaultTargetDir();
     }
 }
 
 if ([string]::IsNullOrEmpty($configPath)) {
-    $configPath = Join-Path $configsDir -ChildPath "default.config.json";
+    $configPath = Join-Path ([Settings]::ConfigsDir()) -ChildPath "default.config.json";
 }
 
 if ([string]::IsNullOrEmpty($templatePath)) {
-    $templatePath = Join-Path -Path $templatesAddProjectDir -ChildPath $templateName;
+    $templatePath = Join-Path -Path ([Settings]::TemplatesAddProjectDir()) -ChildPath $templateName;
 }
 
 # deserialiaze JSON config
@@ -36,41 +35,41 @@ $config = (Get-Content $configPath) -join "`n" | ConvertFrom-Json
 
 # copy to queue
 [LogHelper]::Info("Copy to queue...");
-Get-ChildItem -Path $templatePath | Copy-Item -Destination $queueDir -Recurse;
+Get-ChildItem -Path $templatePath | Copy-Item -Destination ([Settings]::QueueDir()) -Recurse;
 
 # files
-$files = Get-ChildItem -Path $queueDir -File -Recurse -Exclude *.dll, *.pdb, *.xml;
+$files = Get-ChildItem -Path ([Settings]::QueueDir()) -File -Recurse -Exclude *.dll, *.pdb, *.xml;
 
 # replace content in files
 [LogHelper]::Info("Setup content in files...");
-[FileHelper]::ReplaceContent($files, $sk_projectName, $config.projectName, $null);
-[FileHelper]::ReplaceContent($files, $sk_subProjectName, $subProjectName, $null);
+[FileHelper]::ReplaceContent($files, [Settings]::Sk_projectName(), $config.projectName, $null);
+[FileHelper]::ReplaceContent($files, [Settings]::Sk_subProjectName(), $subProjectName, $null);
 
 [ConfigHelper]::IterateOnObjectProperties($config, $files);
 
 # rename files
 [LogHelper]::Info("Rename files...");
-[FileHelper]::RenameFiles($files, $config.projectName, $sk_projectName);
+[FileHelper]::RenameFiles($files, $config.projectName, [Settings]::Sk_projectName());
 
-$files = Get-ChildItem -Path $queueDir -File -Recurse -Exclude *.dll, *.pdb, *.xml;
-[FileHelper]::RenameFiles($files, $subProjectName, $sk_subProjectName);
+$files = Get-ChildItem -Path ([Settings]::QueueDir()) -File -Recurse -Exclude *.dll, *.pdb, *.xml;
+[FileHelper]::RenameFiles($files, $subProjectName, [Settings]::Sk_subProjectName());
 
 # folders
-$dirs = Get-ChildItem -Path $queueDir -Directory -Recurse;
+$dirs = Get-ChildItem -Path ([Settings]::QueueDir()) -Directory -Recurse;
 
 # rename dirs
 [LogHelper]::Info("Rename unicorn directories...");
-[FileHelper]::RenameDirs($root, $dirs, $config.projectName, $sk_projectName);
+[FileHelper]::RenameDirs([Settings]::Root(), $dirs, $config.projectName, [Settings]::Sk_projectName());
 
-$dirs = Get-ChildItem -Path $queueDir -Directory -Recurse;
-[FileHelper]::RenameDirs($root, $dirs, $subProjectName, $sk_subProjectName);
+$dirs = Get-ChildItem -Path ([Settings]::QueueDir()) -Directory -Recurse;
+[FileHelper]::RenameDirs([Settings]::Root(), $dirs, $subProjectName, [Settings]::Sk_subProjectName());
 
 # copy to target
 [LogHelper]::Info("Copy to target...");
-Get-ChildItem -Path $queueDir | Copy-Item -Destination $targetPath -Recurse -Force;
+Get-ChildItem -Path ([Settings]::QueueDir()) | Copy-Item -Destination $targetPath -Recurse -Force;
 
 # clean up queue
 [LogHelper]::Info("Clean up queue...")
-Get-ChildItem -Path $queueDir | Remove-Item -Recurse
+Get-ChildItem -Path ([Settings]::QueueDir()) | Remove-Item -Recurse
 
 [LogHelper]::InfoDark("DONE!")
