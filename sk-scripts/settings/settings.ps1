@@ -7,10 +7,7 @@ $sk_moduleName = "[moduleName]"
 $scriptsRoot = Split-Path -Parent $PSScriptRoot
 $root = Split-Path -Parent $scriptsRoot
 $extensionRoot = Split-Path -Parent $root
-<<<<<<< HEAD
-=======
 $rootTargetDir = Split-Path -Parent $extensionRoot
->>>>>>> 8faff68d2d6a823c01255731c9dfe6b82986e07a
 $templatesDir = Join-Path -Path $extensionRoot -ChildPath "sk-templates"
 $queueDir = Join-Path -Path $root -ChildPath "sk-queue"
 $templatesAddModuleDir = Join-Path -Path $templatesDir -ChildPath "add-module"
